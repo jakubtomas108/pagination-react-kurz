@@ -1,26 +1,58 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const transactionsList = [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19
+];
+
+const App = () => {
+    const [transactions] = useState(transactionsList);
+    const [transactionToDisplay, setTransactionsToDisplay] = useState(
+        transactions
+    );
+
+    useEffect(() => {
+        setPagination(0);
+    }, []);
+
+    const setPagination = pageNumber => {
+        setTransactionsToDisplay(
+            transactions.slice(pageNumber * 4, pageNumber * 4 + 4)
+        );
+    };
+
+    const getButtons = () => {
+        return Array(Math.round(transactions.length / 4)).fill();
+    };
+
+    return (
+        <div>
+            <p>{transactionToDisplay.map(transaction => `${transaction},`)}</p>
+
+            {getButtons().map((_, index) => (
+                <button onClick={() => setPagination(index)} key={index}>
+                    {index + 1}
+                </button>
+            ))}
+        </div>
+    );
+};
 
 export default App;
